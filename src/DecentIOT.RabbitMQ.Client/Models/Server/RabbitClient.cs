@@ -1,4 +1,4 @@
-﻿using DecentIOT.RabbitMQ.Client.Models.Responser;
+﻿using DecentIOT.RabbitMQ.Client.Responser;
 using DecentIOT.RabbitMQ.Consumer;
 using DecentIOT.RabbitMQ.Exchange;
 using DecentIOT.RabbitMQ.Producer;

@@ -1,4 +1,4 @@
-﻿using DecentIOT.RabbitMQ.Client.Models.Responser;
+﻿using DecentIOT.RabbitMQ.Client.Responser;
 using DecentIOT.RabbitMQ.Client.Requester;
 using DecentIOT.RabbitMQ.Message;
 using DecentIOT.RabbitMQ.Requester;
@@ -45,15 +45,14 @@ namespace DecentIOT.RabbitMQ.Testing
             var request = Responser.GetRequest();
             Assert.IsNotNull(request);
             Assert.IsTrue((request.Content).Contains("dogs"));
-            var response = new RabbitMessage(request.ResponseKey, new List<string> { "Poodle", "German Shepard", "Border Colie" });
-            Responser.Respond(response);
+            Responser.Response(request, new List<string> { "Poodle", "German Shepard", "Border Colie" });
         }
         [TestMethod]
         public void Get_Response_Pass()
         {
             Create_CreateRequester_Pass();
             var response = Requester.GetResponse();
-            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Content);
         }
     }
 }

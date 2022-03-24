@@ -1,5 +1,6 @@
 ﻿using DecentIOT.RabbitMQ.Client.Miscellaneous;
 using DecentIOT.RabbitMQ.Client.Requester;
+using DecentIOT.RabbitMQ.Client.Responser;
 using DecentIOT.RabbitMQ.Consumer;
 using DecentIOT.RabbitMQ.Exchange;
 using DecentIOT.RabbitMQ.Message;
@@ -45,11 +46,12 @@ namespace DecentIOT.RabbitMQ.Requester
         {
             Consumer.StartConsuming();
         }
-        public RabbitMessage GetResponse()
+        public RabbitResponse GetResponse()
         {
             try
             {
-                return Consumer.PullMessage(ResponseQueue);
+                var response = Consumer.PullMessage(ResponseQueue);
+                return new RabbitResponse(response);
             }
             catch (Exception)
             {
@@ -57,11 +59,7 @@ namespace DecentIOT.RabbitMQ.Requester
                 return null;
             }
         }
-        public void Request<T>(T request)
-        {
-            Producer.PublishSingle(new RabbitRequest(RequestKey, JsonConvert.SerializeObject(request), ResponseRoutingKey));
-        }
-        public void Request(string request)
+        public void Request(dynamic request)
         {
             var message = new RabbitMessage(RequestKey, request);
             message.AddHeader("responseKey", ResponseRoutingKey);

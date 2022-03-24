@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DecentIOT.RabbitMQ.Message
 {
+    [Serializable]
     public class RabbitMessage
     {
         public string Id { get; }
@@ -38,12 +39,19 @@ namespace DecentIOT.RabbitMQ.Message
             Type = type;
             Headers = headers;
         }
-
+        public string Serialize()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+        public static RabbitMessage Deserialize(string json)
+        {
+            return JsonConvert.DeserializeObject<RabbitMessage>(json);
+        }
         public ReadOnlyMemory<byte> Encode()
         {
             try
             {
-                return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(this));
+                return Encoding.UTF8.GetBytes(Serialize());
             }
             catch (Exception)
             {
@@ -56,7 +64,7 @@ namespace DecentIOT.RabbitMQ.Message
             try
             {
                 string json = Encoding.UTF8.GetString(payload.ToArray());
-                return JsonConvert.DeserializeObject<RabbitMessage>(json);
+                return Deserialize(json);
             }
             catch (Exception)
             {

@@ -10,7 +10,7 @@ using DecentIOT.RabbitMQ.Client.Miscellaneous;
 using DecentIOT.RabbitMQ.Message;
 using DecentIOT.RabbitMQ.Client.Requester;
 
-namespace DecentIOT.RabbitMQ.Client.Models.Responser
+namespace DecentIOT.RabbitMQ.Client.Responser
 {
     public class RabbitResponser
     {
@@ -52,8 +52,10 @@ namespace DecentIOT.RabbitMQ.Client.Models.Responser
                 return null;
             }
         }
-        public void Respond(RabbitMessage response)
+        public void Response(RabbitRequest request,dynamic responseContent)
         {
+            var response = new RabbitMessage(request.ResponseKey, responseContent);
+            response.AddHeader("request",request.Serialize());
             Producer.PublishSingle(response);
         }
         private void Consumer_NewMessage(RabbitConsumer consumer, string queue, RabbitMessage message)

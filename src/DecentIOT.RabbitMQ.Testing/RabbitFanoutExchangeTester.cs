@@ -3,11 +3,7 @@ using DecentIOT.RabbitMQ.Exchange;
 using DecentIOT.RabbitMQ.Message;
 using DecentIOT.RabbitMQ.Queue;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DecentIOT.RabbitMQ.Testing
 {
@@ -39,7 +35,7 @@ namespace DecentIOT.RabbitMQ.Testing
             Assert.IsNotNull(producer);
         }
         [TestMethod]
-        public void ConsumeFrom_RabbitDirectExchange_Pass()
+        public void ConsumeFrom_RabbitFanoutExchange_Pass()
         {
             Create_CreateFanoutExchange_Pass();
 
