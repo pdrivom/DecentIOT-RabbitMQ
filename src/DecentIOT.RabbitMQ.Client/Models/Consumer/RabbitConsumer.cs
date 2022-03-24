@@ -12,6 +12,9 @@ namespace DecentIOT.RabbitMQ.Consumer
 {
     public class RabbitConsumer
     {
+        /// <summary>
+        /// New Message on Queue, <Consumer,Queue Name,Message>
+        /// </summary>
         public event Action<RabbitConsumer,string, RabbitMessage> NewMessage;
 
 

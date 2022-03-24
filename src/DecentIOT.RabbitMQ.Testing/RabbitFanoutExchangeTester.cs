@@ -12,25 +12,19 @@ using System.Threading.Tasks;
 namespace DecentIOT.RabbitMQ.Testing
 {
     [TestClass]
-    public class RabbitFanoutExchangeTesting
+    public class RabbitFanoutExchangeTester : RabbitTester
     {
 
-        private RabbitClient? Client { get; set; }
         private RabbitFanoutExchange? FanoutExchange { get; set; }
         private List<RabbitQueue>? FanoutQueues { get; set; }
 
-        [TestMethod]
-        public void Create_RabbitVitualServerClient_Pass()
-        {
-            Client = new RabbitClient();
-            FanoutQueues = new List<RabbitQueue>();
-            Assert.IsTrue(Client.Connected);
-        }
 
         [TestMethod]
         public void Create_CreateFanoutExchange_Pass()
         {
+            
             Create_RabbitVitualServerClient_Pass();
+            FanoutQueues = new List<RabbitQueue>();
             FanoutExchange = Client?.CreateFanoutExchange("ex.fanout");
             FanoutQueues?.Add(FanoutExchange.CreateQueue("fanout.animal.queue1"));
             FanoutQueues?.Add(FanoutExchange.CreateQueue("fanout.animal.queue2"));

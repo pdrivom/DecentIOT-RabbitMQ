@@ -1,5 +1,5 @@
 ﻿using DecentIOT.RabbitMQ.Client.Message;
-using DecentIOT.RabbitMQ.Consumer;
+using DecentIOT.RabbitMQ.Producer;
 using DecentIOT.RabbitMQ.Exchange;
 using DecentIOT.RabbitMQ.Message;
 using DecentIOT.RabbitMQ.Queue;
@@ -10,27 +10,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static DecentIOT.RabbitMQ.Exchange.RabbitHeadersExchange;
+using DecentIOT.RabbitMQ.Consumer;
 
 namespace DecentIOT.RabbitMQ.Testing
 {
     [TestClass]
-    public class RabbitHeadersExchangeTester
+    public class RabbitHeadersExchangeTester:RabbitTester
     {
-        private RabbitClient? Client { get; set; }
         private RabbitHeadersExchange? HeadersExchange { get; set; }
         private List<RabbitQueue?> HeadersQueue { get; set; }
 
         [TestMethod]
-        public void Create_RabbitVitualServerClient_Pass()
-        {
-            Client = new RabbitClient();
-            HeadersQueue = new List<RabbitQueue?>();
-            Assert.IsTrue(Client.Connected);
-        }
-        [TestMethod]
         public void Create_CreateHeadersExchange_Pass()
         {
             Create_RabbitVitualServerClient_Pass();
+            HeadersQueue = new List<RabbitQueue?>();
             HeadersExchange = Client?.CreateHeadersExchange("ex.headers");
             HeadersQueue.Add(HeadersExchange?.CreateQueue("headers.animal.queue1",x_match.any,new List<RabitMessageHeader> { new RabitMessageHeader("animal","duck"),new RabitMessageHeader("color","white")}));
             HeadersQueue.Add(HeadersExchange?.CreateQueue("headers.animal.queue2",x_match.any,new List<RabitMessageHeader> { new RabitMessageHeader("animal", "dog"), new RabitMessageHeader("color", "white") }));

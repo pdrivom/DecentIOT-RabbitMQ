@@ -7,19 +7,11 @@ using System.Threading;
 namespace DecentIOT.RabbitMQ.Testing
 {
     [TestClass]
-    public class RabbitTopicExchangeTester
+    public class RabbitTopicExchangeTester:RabbitTester
     {
-        private RabbitClient? Client { get; set; }
         private RabbitTopicExchange? TopicExchange { get; set; }
         private RabbitQueue? TopicQueue { get; set; }
 
-
-        [TestMethod]
-        public void Create_RabbitVitualServerClient_Pass()
-        {
-            Client = new RabbitClient();
-            Assert.IsTrue(Client.Connected);
-        }
         [TestMethod]
         public void Create_CreateTopicExchange_Pass()
         {

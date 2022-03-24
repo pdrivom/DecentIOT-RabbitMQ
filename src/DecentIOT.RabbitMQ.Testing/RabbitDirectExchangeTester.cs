@@ -11,18 +11,12 @@ using System.Threading.Tasks;
 namespace DecentIOT.RabbitMQ.Testing
 {
     [TestClass]
-    public class RabbitDirectExchangeTester
+    public class RabbitDirectExchangeTester: RabbitTester
     {
-        private RabbitClient? Client { get; set; }
         private RabbitDirectExchange? DirectExchange { get; set; }
         private RabbitQueue? DirectQueue { get; set; }
 
-        [TestMethod]
-        public void Create_RabbitVitualServerClient_Pass()
-        {
-            Client = new RabbitClient();
-            Assert.IsTrue(Client.Connected);
-        }
+
 
         [TestMethod]
         public void Create_CreateDirectExchange_Pass()

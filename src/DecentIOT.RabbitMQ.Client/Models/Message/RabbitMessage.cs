@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
@@ -13,69 +14,31 @@ namespace DecentIOT.RabbitMQ.Message
         public string Id { get; }
         public string RoutingKey { get; }
         public DateTime Timestamp { get; }
-        public string Content { get; private set; }
+        public dynamic Content { get;  set; }
         public Type Type { get; private set; }
         public Dictionary<string,object> Headers { get; private set; }
 
-        public RabbitMessage(string routingKey)
+
+        public RabbitMessage(string routingKey, dynamic content)
         {
             Id = Guid.NewGuid().ToString();
             RoutingKey = routingKey;
             Timestamp = DateTime.Now;
-        }
-        public RabbitMessage(string routingKey, string content)
-        {
-            Id = Guid.NewGuid().ToString();
-            RoutingKey = routingKey;
-            Timestamp = DateTime.Now;
-            StoreContent(content);
+            Content = content;
+            Type = ((object)Content).GetType();
         }
 
         [JsonConstructor]
-        public RabbitMessage(string id, string routingKey, DateTime timestamp,string content, Type type)
+        public RabbitMessage(string id, string routingKey, DateTime timestamp,dynamic content, Type type, Dictionary<string, object> headers)
         {
             Id = id;
             RoutingKey = routingKey;
             Timestamp = timestamp;
             Content = content;
             Type = type;
+            Headers = headers;
         }
-        public void StoreContent<T>(T content)
-        {
-            try
-            {
-                Content = JsonConvert.SerializeObject(content);
-                Type = typeof(T);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        public T OpenContent<T>()
-        {
-            try
-            {
-                return JsonConvert.DeserializeObject<T>(Content);
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
-        }
-        public object OpenContent()
-        {
-            try
-            {
-                return JsonConvert.DeserializeObject(Content, Type);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
         public ReadOnlyMemory<byte> Encode()
         {
             try

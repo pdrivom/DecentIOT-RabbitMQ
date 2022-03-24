@@ -1,7 +1,9 @@
-﻿using DecentIOT.RabbitMQ.Consumer;
+﻿using DecentIOT.RabbitMQ.Client.Models.Responser;
+using DecentIOT.RabbitMQ.Consumer;
 using DecentIOT.RabbitMQ.Exchange;
 using DecentIOT.RabbitMQ.Producer;
 using DecentIOT.RabbitMQ.Queue;
+using DecentIOT.RabbitMQ.Requester;
 using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
@@ -80,6 +82,14 @@ namespace DecentIOT.RabbitMQ
         public RabbitConsumer CreateConsumer(RabbitQueue queue)
         {
             return new RabbitConsumer(Channel, queue);
+        }
+        public RabbitRequester CreateRequester(string exchange, string requestKey)
+        {
+            return new RabbitRequester(Channel, exchange, requestKey);
+        }
+        public RabbitResponser CreateResponser(string exchange, string requestKey)
+        {
+            return new RabbitResponser(Channel, exchange, requestKey);
         }
     }
 }
