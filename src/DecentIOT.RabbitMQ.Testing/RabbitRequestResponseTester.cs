@@ -1,7 +1,6 @@
-﻿using DecentIOT.RabbitMQ.Client.Responser;
-using DecentIOT.RabbitMQ.Client.Requester;
-using DecentIOT.RabbitMQ.Message;
+﻿using DecentIOT.RabbitMQ.Responder;
 using DecentIOT.RabbitMQ.Requester;
+using DecentIOT.RabbitMQ.Message;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -15,17 +14,15 @@ namespace DecentIOT.RabbitMQ.Testing
     public class RabbitRequestResponseTester:RabbitTester
     {
 
-        private RabbitResponser Responser { get; set; }
+        private RabbitResponder Responder { get; set; }
         private RabbitRequester Requester { get; set; }
 
-        [TestMethod]
         public void Create_CreateResponser_Pass()
         {
             Create_RabbitVitualServerClient_Pass();
-            Responser = Client?.CreateResponser("ex.reqresp", "animals");
-            Assert.IsNotNull(Responser);
+            Responder = Client?.CreateResponser("ex.reqresp", "animals");
+            Assert.IsNotNull(Responder);
         }
-        [TestMethod]
         public void Create_CreateRequester_Pass()
         {
             Create_RabbitVitualServerClient_Pass();
@@ -33,25 +30,26 @@ namespace DecentIOT.RabbitMQ.Testing
             Assert.IsNotNull(Requester);
         }
         [TestMethod]
-        public void Send_Request_Pass()
+        public void T01_Send_Request_Pass()
         {
             Create_CreateRequester_Pass();
-            Requester.Request("dogs");
+            Requester.SendRequest("dogs");
         }
         [TestMethod]
-        public void GetRequestAndRespond_Pass()
+        public void T02_GetRequestAndRespond_Pass()
         {
             Create_CreateResponser_Pass();
-            var request = Responser.GetRequest();
+            var request = Responder.GetRequest();
             Assert.IsNotNull(request);
             Assert.IsTrue((request.Content).Contains("dogs"));
-            Responser.Response(request, new List<string> { "Poodle", "German Shepard", "Border Colie" });
+            Responder.SendResponse(request, new List<string> { "Poodle", "German Shepard", "Border Colie" });
         }
         [TestMethod]
-        public void Get_Response_Pass()
+        public void T03_Get_Response_Pass()
         {
             Create_CreateRequester_Pass();
             var response = Requester.GetResponse();
+
             Assert.IsNotNull(response.Content);
         }
     }

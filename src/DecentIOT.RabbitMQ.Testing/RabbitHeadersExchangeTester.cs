@@ -1,16 +1,10 @@
-﻿using DecentIOT.RabbitMQ.Client.Message;
-using DecentIOT.RabbitMQ.Producer;
+﻿using DecentIOT.RabbitMQ.Message;
 using DecentIOT.RabbitMQ.Exchange;
-using DecentIOT.RabbitMQ.Message;
 using DecentIOT.RabbitMQ.Queue;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static DecentIOT.RabbitMQ.Exchange.RabbitHeadersExchange;
 using DecentIOT.RabbitMQ.Consumer;
+using static DecentIOT.RabbitMQ.Exchange.RabbitHeadersExchange;
 
 namespace DecentIOT.RabbitMQ.Testing
 {
@@ -20,7 +14,6 @@ namespace DecentIOT.RabbitMQ.Testing
         private RabbitHeadersExchange? HeadersExchange { get; set; }
         private List<RabbitQueue?> HeadersQueue { get; set; }
 
-        [TestMethod]
         public void Create_CreateHeadersExchange_Pass()
         {
             Create_RabbitVitualServerClient_Pass();
@@ -31,7 +24,7 @@ namespace DecentIOT.RabbitMQ.Testing
             Assert.IsNotNull(HeadersQueue?.Count>0);
         }
         [TestMethod]
-        public void PublishTo_RabbitHeadersExchange_Pass()
+        public void T01_PublishTo_RabbitHeadersExchange_Pass()
         {
             Create_CreateHeadersExchange_Pass();
             var producer = Client?.CreateProducer(HeadersExchange);
@@ -42,7 +35,7 @@ namespace DecentIOT.RabbitMQ.Testing
             Assert.IsNotNull(producer);
         }
         [TestMethod]
-        public void ConsumeFrom_RabbitHeadersExchange_Pass()
+        public void T02_ConsumeFrom_RabbitHeadersExchange_Pass()
         {
             Create_CreateHeadersExchange_Pass();
 
@@ -51,7 +44,7 @@ namespace DecentIOT.RabbitMQ.Testing
 
             var messages = new List<RabbitMessage>();
 
-            consumers.ForEach(c => messages.Add(c.PullMessage(c.Queue)));
+            consumers.ForEach(c => messages.Add(c.PullMessage()));
 
             Assert.IsNotNull(messages.Count == consumers.Count);
         }

@@ -15,7 +15,6 @@ namespace DecentIOT.RabbitMQ.Testing
         private List<RabbitQueue>? FanoutQueues { get; set; }
 
 
-        [TestMethod]
         public void Create_CreateFanoutExchange_Pass()
         {
             
@@ -27,7 +26,7 @@ namespace DecentIOT.RabbitMQ.Testing
             Assert.IsTrue(FanoutQueues?.Count > 0);
         }
         [TestMethod]
-        public void PublishTo_RabbitFanoutExchange_Pass()
+        public void T01_PublishTo_RabbitFanoutExchange_Pass()
         {
             Create_CreateFanoutExchange_Pass();
             var producer = Client?.CreateProducer(FanoutExchange);
@@ -35,7 +34,7 @@ namespace DecentIOT.RabbitMQ.Testing
             Assert.IsNotNull(producer);
         }
         [TestMethod]
-        public void ConsumeFrom_RabbitFanoutExchange_Pass()
+        public void T02_ConsumeFrom_RabbitFanoutExchange_Pass()
         {
             Create_CreateFanoutExchange_Pass();
 
@@ -44,7 +43,7 @@ namespace DecentIOT.RabbitMQ.Testing
 
             var messages = new List<RabbitMessage>();
 
-            consumers.ForEach(c => messages.Add(c.PullMessage(c.Queue)));
+            consumers.ForEach(c => messages.Add(c.PullMessage()));
 
             Assert.IsNotNull(messages.Count == consumers.Count);
         }

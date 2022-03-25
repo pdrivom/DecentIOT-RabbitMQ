@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DecentIOT.RabbitMQ.Client.Requester
+namespace DecentIOT.RabbitMQ.Requester
 {
     public class RabbitRequest:RabbitMessage
     {

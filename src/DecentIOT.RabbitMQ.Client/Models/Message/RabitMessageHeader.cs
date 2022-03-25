@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DecentIOT.RabbitMQ.Client.Message
+namespace DecentIOT.RabbitMQ.Message
 {
     public class RabitMessageHeader
     {

@@ -18,7 +18,6 @@ namespace DecentIOT.RabbitMQ.Testing
 
 
 
-        [TestMethod]
         public void Create_CreateDirectExchange_Pass()
         {
             Create_RabbitVitualServerClient_Pass();
@@ -27,25 +26,29 @@ namespace DecentIOT.RabbitMQ.Testing
             Assert.IsNotNull(DirectQueue?.QueueDeclare);
         }
         [TestMethod]
-        public void PublishTo_RabbitDirectExchange_Pass()
+        public void T01_PublishTo_RabbitDirectExchange_Pass()
         {
             Create_CreateDirectExchange_Pass();
             var producer = Client?.CreateProducer(DirectExchange);
-            producer?.PublishSingle(new RabbitMessage("duck.image.png", "quack!"));
-            producer?.PublishSingle(new RabbitMessage("duck.image.png", "shit!"));
-            producer?.PublishSingle(new RabbitMessage("duck.image.png", "a wolf!"));
+            var messages = new List<RabbitMessage>
+            {
+                new RabbitMessage("duck.image.png", "quack!"),
+                new RabbitMessage("duck.image.png", "shit!"),
+                new RabbitMessage("duck.image.png", "a wolf!")
+            };
+            producer?.PublishMany(messages);
             Assert.IsNotNull(producer);
         }
         [TestMethod]
-        public void ConsumeFrom_RabbitDirectExchange_Pass()
+        public void T02_ConsumeFrom_RabbitDirectExchange_Pass()
         {
             Create_CreateDirectExchange_Pass();
 
             var consumer = Client.CreateConsumer(DirectQueue);
 
-            var duck1Message = consumer.PullMessage(DirectQueue);
-            var duck2Message = consumer.PullMessage(DirectQueue);
-            var duck3Message = consumer.PullMessage(DirectQueue);
+            var duck1Message = consumer.PullMessage();
+            var duck2Message = consumer.PullMessage();
+            var duck3Message = consumer.PullMessage();
 
             Assert.IsNotNull(duck1Message);
             Assert.IsNotNull(duck2Message);

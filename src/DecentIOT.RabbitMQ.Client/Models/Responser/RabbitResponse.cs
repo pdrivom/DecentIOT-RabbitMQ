@@ -1,13 +1,16 @@
-﻿using DecentIOT.RabbitMQ.Client.Requester;
+﻿using DecentIOT.RabbitMQ.Requester;
 using DecentIOT.RabbitMQ.Message;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DecentIOT.RabbitMQ.Client.Responser
+namespace DecentIOT.RabbitMQ.Responder
 {
     public class RabbitResponse:RabbitMessage
     {
+        /// <summary>
+        /// The request of this response.
+        /// </summary>
         public RabbitMessage Request { get; }
 
         public RabbitResponse(RabbitMessage message)

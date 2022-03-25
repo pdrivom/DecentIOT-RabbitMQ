@@ -26,7 +26,9 @@ namespace DecentIOT.RabbitMQ.Producer
             Exchange = exchange.Name;
         }
 
-
+        /// <summary>
+        /// Publish a single message, all needed information is provided on the <see cref="RabbitMessage"/> object.
+        /// </summary>
         public void PublishSingle(RabbitMessage message)
         {
             try
@@ -44,6 +46,9 @@ namespace DecentIOT.RabbitMQ.Producer
                 throw;
             }
         }
+        /// <summary>
+        /// Publish a batch of messages, all needed information is provided on each <see cref="RabbitMessage"/> object.
+        /// </summary>
         public void PublishMany(List<RabbitMessage> batch,bool mandatory = false)
         {
             try

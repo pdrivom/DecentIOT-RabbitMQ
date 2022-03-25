@@ -2,6 +2,7 @@ using DecentIOT.RabbitMQ.Exchange;
 using DecentIOT.RabbitMQ.Message;
 using DecentIOT.RabbitMQ.Queue;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace DecentIOT.RabbitMQ.Testing
@@ -12,7 +13,6 @@ namespace DecentIOT.RabbitMQ.Testing
         private RabbitTopicExchange? TopicExchange { get; set; }
         private RabbitQueue? TopicQueue { get; set; }
 
-        [TestMethod]
         public void Create_CreateTopicExchange_Pass()
         {
             Create_RabbitVitualServerClient_Pass();
@@ -22,25 +22,29 @@ namespace DecentIOT.RabbitMQ.Testing
         }
 
         [TestMethod]
-        public void PublishTo_RabbitTopicExchange_Pass()
+        public void T01_PublishTo_RabbitTopicExchange_Pass()
         {
             Create_CreateTopicExchange_Pass();
             var producer = Client.CreateProducer(TopicExchange);
-            producer.PublishSingle(new RabbitMessage("duck.image.png", "quack!"));
-            producer.PublishSingle(new RabbitMessage("dog.image.jpg", "auau!"));
-            producer.PublishSingle(new RabbitMessage("cat.image.giff", "miau!"));
+            var messages = new List<RabbitMessage>
+            {
+                new RabbitMessage("duck.image.png", "quack!"),
+                new RabbitMessage("dog.image.jpg", "auau!"),
+                new RabbitMessage("cat.image.giff", "miau!")
+            };
+            producer.PublishMany(messages);
             Assert.IsNotNull(producer);
         }
         [TestMethod]
-        public void ConsumeFrom_RabbitTopicExchange_Pass()
+        public void T02_ConsumeFrom_RabbitTopicExchange_Pass()
         {
             Create_CreateTopicExchange_Pass();
 
             var consumer = Client.CreateConsumer(TopicQueue);
 
-            var duckMessage = consumer.PullMessage(TopicQueue);
-            var dogMessage = consumer.PullMessage(TopicQueue);
-            var catMessage = consumer.PullMessage(TopicQueue);
+            var duckMessage = consumer.PullMessage();
+            var dogMessage = consumer.PullMessage();
+            var catMessage = consumer.PullMessage();
 
             Assert.IsNotNull(duckMessage);
             Assert.IsNotNull(dogMessage);

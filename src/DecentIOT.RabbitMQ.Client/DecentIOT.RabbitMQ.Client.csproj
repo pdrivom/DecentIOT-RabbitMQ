@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Pedro Marques</Authors>
     <Company>DecentIOT</Company>
-    <Description>This is a RabbitMQ.Client package wrapper. It eases the usage and creates a nice abstraction. The Request/Response and Publish/Subscribe patterns are also implemented.</Description>
+    <Description>This is a RabbitMQ.Client package wrapper. It eases the usage and creates a nice abstraction. The Request/Response patterns is also implemented.</Description>
     <PackageIcon>rabbit.png</PackageIcon>
     <RepositoryUrl>https://github.com/pdrivom/DecentIOT-RabbitMQ</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -14,6 +14,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Copyright © 2022 Pedro Marques</Copyright>
     <PackageProjectUrl>https://github.com/pdrivom/DecentIOT-RabbitMQ</PackageProjectUrl>
+    <Version>1.0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

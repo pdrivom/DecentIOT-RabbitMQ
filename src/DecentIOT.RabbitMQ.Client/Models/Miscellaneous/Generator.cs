@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace DecentIOT.RabbitMQ.Client.Miscellaneous
+namespace DecentIOT.RabbitMQ.Miscellaneous
 {
     public static class Generator
     {

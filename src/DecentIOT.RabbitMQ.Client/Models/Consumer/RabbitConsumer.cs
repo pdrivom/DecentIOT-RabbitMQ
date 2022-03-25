@@ -38,6 +38,9 @@ namespace DecentIOT.RabbitMQ.Consumer
         {
             Queue = queue.Name;
         }
+        /// <summary>
+        /// Starts to listen to new messages on the provided queue. <see cref="NewMessage"/> event is fired on new message.
+        /// </summary>
         public void StartConsuming()
         {
             try
@@ -54,6 +57,10 @@ namespace DecentIOT.RabbitMQ.Consumer
                 throw;
             }
         }
+        /// <summary>
+        /// Starts to listen to new messages on the provided queue. Only your custom event is fired on new message.
+        /// </summary>
+        /// <param name="newMessageEvent">Your custom new message event</param>
         public void StartConsuming(Action<RabbitConsumer,string, RabbitMessage> newMessageEvent)
         {
             try
@@ -70,22 +77,14 @@ namespace DecentIOT.RabbitMQ.Consumer
                 throw;
             }
         }
-        public RabbitMessage PullMessage(string queue)
+        /// <summary>
+        /// Synchronously gets the message from queue, this dequeues the message, so only use it if not using the <see cref="StartConsuming"/> method.
+        /// </summary>
+        public RabbitMessage PullMessage()
         {
             try
             {
-                return RabbitMessage.Decode(Channel.BasicGet(queue, true).Body);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-        public RabbitMessage PullMessage(RabbitQueue queue)
-        {
-            try
-            {
-                return RabbitMessage.Decode(Channel.BasicGet(queue.Name, true).Body);
+                return RabbitMessage.Decode(Channel.BasicGet(Queue, true).Body);
             }
             catch (Exception)
             {
