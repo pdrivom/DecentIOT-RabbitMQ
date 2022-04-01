@@ -68,7 +68,7 @@ var directExchange = Client.CreateDirectExchange("ex.direct");
 var directQueue = DirectExchange.CreateQueue("direct.animal.queue", "duck.wild.life");
 ```
 #### Producer
-Here the producer sends a batch of messages to the ***routing key*** binded to the Queue.
+In this example the producer sends a batch of messages to the ***routing key*** binded to the Queue.
 ```csharp
 using DecentIOT.RabbitMQ.Producer;
 
@@ -131,7 +131,7 @@ var queue1 = fanoutExchange .CreateQueue("fanout.animal.queue1"));
 var queue2 = fanoutExchange .CreateQueue("fanout.animal.queue2"));
 ```
 #### Producer
-Here the producer sends one  messages to the Exchange.
+In this example the producer sends one  messages to the Exchange.
 ```csharp
 using DecentIOT.RabbitMQ.Producer;
 
@@ -142,7 +142,7 @@ producer.PublishSingle(new RabbitMessage("", "quack!"));
 
 ```
 #### Synchronous Consumer (Pull)
-Here the messages are pulled (dequeued) from the created ***fanout.animal.queue1*** and ***fanout.animal.queue2*** with only one message was pushed .
+In this example the messages are pulled (dequeued) from the created ***fanout.animal.queue1*** and ***fanout.animal.queue2*** with only one message was pushed .
 ```csharp
 using DecentIOT.RabbitMQ.Consumer;
 
@@ -155,7 +155,7 @@ var duck2Message = consumer.PullMessage(); //"quack!"
 
 ```
 #### Asynchronous Consumer 
-Here the consumers waits for a new message pushed to the Exchange then routed to ***fanout.animal.queue1*** and ***fanout.animal.queue2***.
+In this example the consumers waits for a new message pushed to the Exchange then routed to ***fanout.animal.queue1*** and ***fanout.animal.queue2***.
 ```csharp
 using DecentIOT.RabbitMQ.Consumer;
 
@@ -191,7 +191,7 @@ var queue1 = headersExchange.CreateQueue("headers.animal.queue1",x_match.any,new
 var queue2 = headersExchange.CreateQueue("headers.animal.queue2",x_match.all,new List<RabitMessageHeader> { new RabitMessageHeader("animal", "dog"), new RabitMessageHeader("color", "white") }));
 ```
 #### Producer
-Here the producer sends a messages to the Exchange with the specified headers.
+In this example the producer sends a messages to the Exchange with the specified headers.
 ```csharp
 using DecentIOT.RabbitMQ.Producer;
 
@@ -204,7 +204,7 @@ message.AddHeader("color","white");
 producer.PublishSingle(message);
 ```
 #### Synchronous Consumer (Pull)
-Here the messages are pulled (dequeued) from the created ***headers.animal.queue1***, but not from ***headers.animal.queue2*** since this queue needs to match all headers attributes .
+In this example the messages are pulled (dequeued) from the created ***headers.animal.queue1***, but not from ***headers.animal.queue2*** since this queue needs to match all headers attributes .
 ```csharp
 using DecentIOT.RabbitMQ.Consumer;
 
@@ -216,7 +216,7 @@ var queue1Message = consumer.PullMessage(); //"quack!"
 var queue2Message = consumer.PullMessage(); //no message on queue, must match all arguments
 ```
 #### Asynchronous Consumer 
-Here the consumers waits for a new message pushed to the Exchange then routed to ***headers.animal.queue1*** and ***headers.animal.queue2***.
+In this example the consumers waits for a new message pushed to the Exchange then routed to ***headers.animal.queue1*** and ***headers.animal.queue2***.
 ```csharp
 using DecentIOT.RabbitMQ.Consumer;
 
@@ -250,7 +250,7 @@ var topicExchange = Client.CreateTopicExchange("ex.topic");
 var topicQueue = TopicExchange.CreateQueue("topic.animal.queue", "*.wild.*");
 ```
 #### Producer
-Here the producer sends a batch of messages to the Exchange and each contains a ***routing key*** .
+In this example the producer sends a batch of messages to the Exchange and each contains a ***routing key*** .
 ```csharp
 using DecentIOT.RabbitMQ.Producer;
 
@@ -265,7 +265,7 @@ var producer = Client.CreateProducer(topicExchange);
 producer.PublishMany(messages);
 ```
 #### Synchronous Consumer (Pull)
-Here all the messages are pulled (dequeued) from the created ***topic.animal.queue*** since all the routing keys contain the word ***wild*** as binded to the wildcard.
+In this example all the messages are pulled (dequeued) from the created ***topic.animal.queue*** since all the routing keys contain the word ***wild*** as binded to the wildcard.
 ```csharp
 using DecentIOT.RabbitMQ.Consumer;
 
@@ -291,6 +291,25 @@ consumer.NewMessage += (consumer, queue, message) =>
 	//"miau!"
 };
 consumer.StartConsuming();
+```
+## Bind Queues to multiple Exchanges
+In this example a queue previously binded to a topic exchange is also binded to a direct exchange.
+```csharp
+using RabbitMQ.Client;
+using DecentIOT.RabbitMQ;
+using DecentIOT.RabbitMQ.Exchange;
+using DecentIOT.RabbitMQ.Queue;
+
+
+var client = new RabbitClient();
+
+var topicExchange = Client.CreateTopicExchange("ex.topic");
+
+var queue = topicExchange?.CreateQueue("topic.animal.queue", "*.image.*");
+
+var directExchange = Client?.CreateDirectExchange("ex.direct");
+
+directExchange.AddQueue(queue, "duck.image.png");
 ```
 ## Request/Response
 The request/response pattern between two parties is described as: the requester sends a request to the responder, the responder starts the work and sends the response to the requester once the work is done.
