@@ -19,5 +19,6 @@ namespace DecentIOT.RabbitMQ.Testing
             Assert.IsTrue(Client.Connected);
         }
 
+
     }
 }

@@ -12,7 +12,7 @@ namespace DecentIOT.RabbitMQ.Exchange
     {
 
         public RabbitFanoutExchange(IModel channel, string name = "ex.fanout", bool durable = true, bool autodelete = false, IDictionary<string, object> arguments = null) :
-            base(channel, name, durable, autodelete)
+            base(channel, name)
         {
             Channel?.ExchangeDeclare(name, "fanout", durable, autodelete, arguments);
         }

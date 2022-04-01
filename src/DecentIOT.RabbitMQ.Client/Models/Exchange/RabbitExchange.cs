@@ -11,10 +11,14 @@ namespace DecentIOT.RabbitMQ.Exchange
         /// Exchange name.
         /// </summary>
         public string Name { get; private set; }
-        public RabbitExchange(IModel channel, string name = "ex.topic", bool durable = true, bool autodelete = false, IDictionary<string, object> arguments = null)
+        public RabbitExchange(IModel channel, string name = "ex.topic")
         {
             Channel = channel;
             Name = name;
+        }
+        public void AddQueue(RabbitQueue queue,string routingKey)
+        {
+            Channel.QueueBind(queue.Name, Name, routingKey);
         }
         
     }

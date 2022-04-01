@@ -18,7 +18,7 @@ namespace DecentIOT.RabbitMQ.Exchange
         }
 
         public RabbitHeadersExchange(IModel channel, string name = "ex.headers", bool durable = true, bool autodelete = false, IDictionary<string, object> arguments = null) :
-            base(channel, name, durable, autodelete)
+            base(channel, name)
         {
             Channel?.ExchangeDeclare(name, "headers", durable, autodelete, arguments);
         }

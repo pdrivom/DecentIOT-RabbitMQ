@@ -11,7 +11,7 @@ namespace DecentIOT.RabbitMQ.Exchange
     public class RabbitDirectExchange : RabbitExchange
     {
         public RabbitDirectExchange(IModel channel, string name = "ex.direct", bool durable = true, bool autodelete = false, IDictionary<string, object> arguments = null) :
-            base(channel, name, durable, autodelete)
+            base(channel, name)
         {
             Channel?.ExchangeDeclare(name, "direct", durable, autodelete, arguments);
         }
